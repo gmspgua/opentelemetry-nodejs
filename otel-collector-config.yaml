@@ -1,0 +1,17 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+exporters:
+  otlphttp:
+    endpoint: "https://hgc14925.live.dynatrace.com/api/v2/otlp"
+    headers: {"Authorization": "Api-Token dt0c01.O5ITYYES57YNPOEELEBAXLVR.QKR47P6ACD2YKDVSLKEC4ZHFY4HPLRIZPBPISFOWZR3WBK4UWU5CPUMSJ4JCQIM6"}
+  logging:
+    loglevel: info
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: []
+      exporters: [otlphttp,logging]

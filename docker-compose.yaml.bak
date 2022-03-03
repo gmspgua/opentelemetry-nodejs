@@ -1,0 +1,23 @@
+version: "2"
+services:
+  otel-collector:
+    image: ${OTELCOL_IMG}
+    command: ["--config=/etc/otel-collector-config.yaml", "${OTELCOL_ARGS}"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "1888:1888"   
+      - "13133:13133" 
+      - "4317"        
+  node-js:
+    build:
+      dockerfile: Dockerfile
+      context: ../poc-opentelemtry
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4317
+      - HOST=https://viacep.com.br
+      - PORT=8080
+    ports:
+      - "53260:8080"
+    depends_on:
+      - otel-collector
