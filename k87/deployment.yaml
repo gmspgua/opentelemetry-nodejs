@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cep-deployment
+  labels:
+    app: cep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cep
+  template:
+    metadata:
+      labels:
+        app: cep
+    spec:
+      containers:
+      - name: api-cep
+        image: 130593/api-cep:latest
+        ports:
+        - containerPort: 8080
